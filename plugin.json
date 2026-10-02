@@ -1,0 +1,25 @@
+{
+  "name": "siyuan-worktime-table",
+  "author": "wiegi",
+  "url": "https://github.com/wiegi/siyuan-worktime-table",
+  "version": "0.0.1",
+  "minAppVersion": "3.1.0",
+  "backends": ["all"],
+  "frontends": ["all"],
+  "displayName": {
+    "default": "Worktime Table",
+    "en_US": "Worktime Table"
+  },
+  "description": {
+    "default": "Create and edit worktime tables with automatic totals, subtotals and offsets.",
+    "en_US": "Create and edit worktime tables with automatic totals, subtotals and offsets."
+  },
+  "readme": {
+    "default": "README.md",
+    "en_US": "README.md"
+  },
+  "keywords": ["worktime", "time tracking", "table"],
+  "funding": {
+    "custom": ["https://www.buymeacoffee.com/wiegi"]
+  }
+}
