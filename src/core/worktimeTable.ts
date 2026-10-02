@@ -603,10 +603,10 @@ export function parseWorktimeTableFromMarkdown(
           kind: "offset",
           task: cellTask === "-" ? "" : cellTask,
           start:
-            industrial !== null
-              ? String(industrial)
-              : minutes !== null
-                ? (minutes / 60).toFixed(2)
+            minutesFromHHMM !== null
+              ? (minutesFromHHMM / 60).toFixed(2)
+              : industrial !== null
+                ? String(industrial)
                 : "",
           end: "",
         });

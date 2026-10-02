@@ -1,0 +1,81 @@
+name: Release
+
+# Push a tag like v0.1.0 (must match "version" in plugin.json) to build
+# package.zip and attach it to a GitHub release. The SiYuan bazaar installs
+# plugins from that asset.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to release (e.g. v0.1.0)"
+        required: true
+        type: string
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Determine tag
+        id: meta
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${{ github.ref_name }}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.meta.outputs.tag }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Check tag matches plugin version
+        run: |
+          VERSION=$(node -p "require('./plugin.json').version")
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [ "v$VERSION" != "${{ steps.meta.outputs.tag }}" ] || [ "$PKG_VERSION" != "$VERSION" ]; then
+            echo "Tag ${{ steps.meta.outputs.tag }}, plugin.json $VERSION and package.json $PKG_VERSION must agree." >&2
+            exit 1
+          fi
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Check release files
+        run: |
+          for f in index.js plugin.json README.md icon.png preview.png i18n; do
+            test -e "dist/$f" || { echo "dist/$f is missing" >&2; exit 1; }
+          done
+
+      - name: Create package.zip
+        run: cd dist && zip -r ../package.zip .
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          files: package.zip
+          generate_release_notes: true
+          fail_on_unmatched_files: true

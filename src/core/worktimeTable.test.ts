@@ -137,7 +137,7 @@ describe("worktime table logic", () => {
       rows: [
         { task: "Deep work", start: "08:00", end: "10:30" },
         { task: "", start: "", end: "" },
-        { kind: "offset", task: "Break", start: "0", end: "" },
+        { kind: "offset", task: "Break", start: "-0.50", end: "" },
         {
           kind: "subtotal",
           task: "Morning subtotal",

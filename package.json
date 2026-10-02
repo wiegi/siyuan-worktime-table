@@ -1,6 +1,6 @@
 {
   "name": "siyuan-worktime-table",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SiYuan plugin: create and edit worktime tables with automatic totals.",
   "license": "Apache-2.0",
   "type": "module",
