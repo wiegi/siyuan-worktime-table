@@ -3,6 +3,12 @@ A SiYuan plugin for creating and editing worktime tables directly in your notes 
 
 Sibling of [logseq-worktime-table](https://github.com/wiegi/logseq-worktime-table). Both plugins share the same calculation core.
 
+![Worktime table dialog](docs/dialog.png)
+
+The dialog produces a regular SiYuan table:
+
+![Resulting worktime table](docs/table.png)
+
 ## Features
 * Create worktime tables from the slash menu
 * Record multiple entries with task, start time, end time, and duration
